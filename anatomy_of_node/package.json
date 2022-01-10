@@ -1,0 +1,19 @@
+{
+  "name": "anatomy_of_node",
+  "version": "1.0.0",
+  "description": "Learning NodeJS with Pirple.com",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "private":true,
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "jokes": "0.0.2" 
+  },
+  "keywords": ["NodeJS", "Module System", "Pirple Course"],
+  "author": "Victor Hugo da Silva",
+  "license": "UNLICENSED"
+}

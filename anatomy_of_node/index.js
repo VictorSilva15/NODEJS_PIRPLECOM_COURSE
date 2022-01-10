@@ -10,6 +10,13 @@
 let mathLib = require('./lib/math');
 let jokesLib = require('./lib/jokes');
 
+//Dependecies installed by npm:
+
+//When we install some dependency by npm, we only need to pass the name of the
+//dependicie different of require a file in other directory
+let otherJokesLib = require('jokes');
+
+
 // App Object
 let app =  {};
 
