@@ -4,7 +4,7 @@
  * @author Victor Hugo da Silva
  * @description Building a Http Server with NodeJS by Pirple.com Course
  * @see https://pirple.com/courses/
- * Date: 11/01/2022 at 15:33pm - Tuesday (Brazil)
+ * date: 11/01/2022 at 15:33pm - Tuesday (Brazil)
  *
  **/
 
@@ -12,6 +12,7 @@
 // Dependencies
 const http = require('http')
 const url = require('url')
+const stringDecoder = require('string_decoder').StringDecoder
 
 // The server should respond to all requests with a string
 const server = http.createServer((req, res)=> {
@@ -32,14 +33,28 @@ const server = http.createServer((req, res)=> {
     // Get the header as an object
     const headers = req.headers 
 
-    // send a response
-    res.end("Hello World\n")
+    // Get the payload, if any
+    const decoder = new stringDecoder("utf-8")
+    let buffer = ''
 
-    // log the path
-    /* console.log("Request received on path: "+trimmedPath+
-    "\nwith method: "+method+
-    "\nand query string parameters: ",queryStringObject) */
-    console.log("Request received with these headers: ", headers)
+    req.on('data', function(data){
+        buffer += decoder.write(data)
+    })
+    req.on('end', function(){
+        buffer += decoder.end()
+
+         // send a response
+        res.end("Hello World\n")
+
+        // log the path
+        /* console.log("Request received on path: "+trimmedPath+
+        "\nwith method: "+method+
+        "\nand query string parameters: ",queryStringObject) */
+        console.log("Request received with this payload: ", buffer)
+        
+    })
+
+   
 })
 
 // Start the server, and have it listen on port 3000
