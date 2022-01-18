@@ -11,12 +11,39 @@
 
 // Dependencies
 const http = require('http');
+const https = require('https');
 const url = require('url');
 const stringDecoder = require('string_decoder').StringDecoder;
 const config = require('./config');
+const fs = require('fs');
 
-// The server should respond to all requests with a string
-const server = http.createServer((req, res)=> {
+
+// Instantiate the HTTP server
+const httpServer = http.createServer(unifiedServer);
+
+// Start the HTTP server
+httpServer.listen(config.httpPort, ()=>{
+    console.log(`Running at ${config.httpPort} port in ${config.envName} mode`)
+});
+
+
+// Instantiate the HTTPS server
+let httpsServerOptions = {
+    'key': fs.readFileSync('./https/key.pem'),
+    'cert': fs.readFileSync('./https/cert.pem'),
+};
+
+const httpsServer = https.createServer(httpsServerOptions, unifiedServer);
+
+
+// Start the HTTPS server
+httpsServer.listen(config.httpsPort, ()=>{
+    console.log(`Running at ${config.httpsPort} port in ${config.envName} mode`)
+});
+
+
+// All the server logic for both http and https server
+function unifiedServer(req, res) {
     
     // Get the URL and parse it
     const parsedUrl = url.parse(req.url, true);
@@ -84,26 +111,22 @@ const server = http.createServer((req, res)=> {
         })
         
     });
+}
 
-})
-
-// Start the server
-server.listen(config.port, ()=>{
-    console.log(`Running at ${config.port} port in ${config.envName} mode`)
-});
 
 // Define the handlers
-const handlers = {};
+const handlers = {
 
-// Sample Handler
-handlers.sample = function(data, callback){
-    // Callback a HTTP Status code, and payload object
-    console.log(data);
-    callback(406, {'name': 'sample handler'});
-};
+    // Sample Handler
+    sample: function(data, callback){
+        // Callback a HTTP Status code, and payload object
+        callback(406, {'name': 'sample handler'});
+    },
 
-handlers.notFound = function(data, callback){
-    callback(404);
+    notFound: function(data, callback){
+        callback(404);
+    }
+
 };
 
 // Define a request router
