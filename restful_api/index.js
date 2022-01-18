@@ -16,6 +16,36 @@ const url = require('url');
 const stringDecoder = require('string_decoder').StringDecoder;
 const config = require('./config');
 const fs = require('fs');
+const _data = require('./lib/data');
+
+/**
+ * TESTING
+ * @TODO delete this
+ * 
+ * @example CREATE
+ * _data.create('test', 'newFile', {"name": "victor"}, (err)=>{
+ *      console.log("This was the error: " + err);
+ * })
+ * 
+ * @example READ
+ * _data.read('test', 'newFile', (err, data)=>{
+ *      console.log("This was the error: ", err, "\nand this was the data: ", data);
+ * })
+ * 
+ * 
+ * @example UPDATE
+ * _data.update('test', 'newFile', {'name': "Yuriko"},(err)=>{
+ *      console.log("This was the error: ", err);
+ * })
+ * 
+ */
+
+_data.delete('test', 'newFile',(err)=>{
+    console.log("This was the error: ", err);
+})
+
+
+
 
 
 // Instantiate the HTTP server
