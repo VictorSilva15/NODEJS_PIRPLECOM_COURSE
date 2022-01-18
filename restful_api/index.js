@@ -75,7 +75,8 @@ const server = http.createServer((req, res)=> {
             let payloadString = JSON.stringify(payload);
 
             // Return the response
-            res.writeHead(statusCode.toString());
+            res.setHeader('Content-Type', "application/json");
+            res.writeHead(statusCode);
             res.end(payloadString);
 
             // Log the request path
