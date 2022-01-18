@@ -14,6 +14,7 @@ const http = require('http');
 const url = require('url');
 const stringDecoder = require('string_decoder').StringDecoder;
 
+
 // The server should respond to all requests with a string
 const server = http.createServer((req, res)=> {
     
@@ -74,7 +75,7 @@ const server = http.createServer((req, res)=> {
             let payloadString = JSON.stringify(payload);
 
             // Return the response
-            res.write(statusCode);
+            res.writeHead(statusCode.toString());
             res.end(payloadString);
 
             // Log the request path
@@ -88,13 +89,13 @@ const server = http.createServer((req, res)=> {
 // Start the server, and have it listen on port 3000
 server.listen(3000, ()=>console.log("The server are running on port 3000 now"));
 
-
 // Define the handlers
 const handlers = {};
 
 // Sample Handler
 handlers.sample = function(data, callback){
     // Callback a HTTP Status code, and payload object
+    console.log(data);
     callback(406, {'name': 'sample handler'});
 };
 
@@ -106,4 +107,5 @@ handlers.notFound = function(data, callback){
 let router = {
     'sample' : handlers.sample
 };
+
 
